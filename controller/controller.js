@@ -1,6 +1,7 @@
 const data = require('../data/data')
 const axios = require('axios')
 const cheerio = require('cheerio')
+const bcrypt = require('bcrypt');
 
 const articles = []
 
