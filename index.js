@@ -7,4 +7,5 @@ app.use(express.urlencoded({ extended: true })); // Faz o parse do conteúdo tip
 require("./routes/routes")(app);
 
 app.listen(PORT, () => console.log(`server running on PORT ${PORT}`))
+
 app.use(express.static('public'))

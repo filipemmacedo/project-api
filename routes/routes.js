@@ -7,5 +7,11 @@ module.exports = (app) => {
 
   router.get("/news/:newspaperId", controller.getSpecificApi);
 
+  router.get("/users", controller.usersGet)
+  
+  router.post("/users", controller.usersPost)
+  
+  router.post("/users/login", controller.usersLogged)
+
   app.use("/", router);
 };
