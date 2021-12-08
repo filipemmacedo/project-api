@@ -28,12 +28,14 @@ data.forEach((newspaper) => {
 });
 
 exports.getApi = (req, res) => {
-  try {
-    res.json(articles);
-  } catch (err) {
-    console.log("erro");
+  authenticateToken(req, res);
+  if (req.email != null) {
+    try {
+      res.json(articles);
+    } catch (err) {
+      console.log("erro");
   }
-};
+}};
 
 exports.getSpecificApi = (req, res) => {
   const newspaperId = req.params.newspaperId;
@@ -89,19 +91,17 @@ async function enviaEmail(recipients, URLconfirm) {
 
   // Cria um objeto transporter reutilizável que é um transporter SMTP
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true para 465, false para outras portas
+    service: "Gmail",
     auth: {
-      user: testAccount.user, // utilizador ethereal gerado
-      pass: testAccount.pass, // senha do utilizador ethereal
+      user: process.env.GMAIL_EMAIL, // utilizador ethereal gerado
+      pass: process.env.GMAIL_PASS, // senha do utilizador ethereal
     },
   });
 
   // envia o email usando o objeto de transporte definido
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>', // endereço do originador
-    to: recipients, // lista de destinatários
+    from: '"Filipe Macedo" <filipemacedo55@gmail.com>', // endereço do originador
+    to: "kjc71139@zwoho.com", // lista de destinatários
     subject: "Hello ✔", // assunto
     text: "Link to activate: " + URLconfirm, // corpo do email
     html: "<b>Link to activate: " + URLconfirm + "</b>", // corpo do email em html
