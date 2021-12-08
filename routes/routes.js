@@ -7,11 +7,12 @@ module.exports = (app) => {
 
   router.get("/news/:newspaperId", controller.getSpecificApi);
 
-  router.get("/users", controller.usersGet)
-  
-  router.post("/users", controller.usersPost)
-  
-  router.post("/users/login", controller.usersLogged)
+  router.post("/registar", controller.registar);
 
-  app.use("/", router);
+  router.post("/login", controller.login);
+
+  // Rota para verificar e ativar o utilizador
+  router.get("/auth/confirm/:confirmationCode", controller.verificaUtilizador);
+
+  app.use('/api', router);
 };

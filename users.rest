@@ -1,18 +1,7 @@
-GET http://localhost:8000/users
-####
-
-POST http://localhost:8000/users
+POST http://localhost:8000/api/registar
 Content-Type: application/json
 
 {
-    "name": "Kyle",
-    "password": "password"
-}
-###
-POST http://localhost:8000/users/login
-Content-Type: application/json
-
-{
-    "name": "Kyle",
-    "password": "password"
+    "email":"filipemacedo55@gmail.com",
+    "pass":"111"
 }
