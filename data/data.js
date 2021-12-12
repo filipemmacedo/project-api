@@ -2,7 +2,7 @@ const newspapers = [
     {
         name: 'jornal-de-noticias',
         address: 'https://www.jn.pt/inovacao.html',
-        base: 'https://www.jn.pt/inovacao.html/'
+        base: 'https://www.jn.pt'
     },
     {
         name: 'jornal-de-negocios',

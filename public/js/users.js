@@ -90,8 +90,20 @@ function validaLogin() {
       localStorage.setItem("token", token);
       document.getElementById("statusLogin").innerHTML = "Sucesso!";
       document.getElementById("btnLoginClose").click();
+      document.location.reload(true)
     })
     .catch(async (error) => {
       statLogin.innerHTML = error
     });
 }
+function fetchApiToken() {
+  let token = localStorage.getItem('token') //mostrar token
+  if(token) {
+    document.getElementById("btnLogoff").innerHTML = '<button type="button" class="btn btn-light" id="btnLogoff">Sign Out</button>'
+    document.getElementById("btnModalRegistar").style.display = "none"
+    document.getElementById("btnModalLogin").style.display = "none"
+  } else {
+    document.getElementById("btnLogoff").style.display = "none"
+  }
+}
+fetchApiToken()

@@ -28,14 +28,8 @@ data.forEach((newspaper) => {
 });
 
 exports.getApi = (req, res) => {
-  authenticateToken(req, res);
-  if (req.email != null) {
-    try {
-      res.json(articles);
-    } catch (err) {
-      console.log("erro");
-  }
-}};
+  res.json(articles);
+}
 
 exports.getSpecificApi = (req, res) => {
   const newspaperId = req.params.newspaperId;
@@ -67,7 +61,7 @@ exports.getSpecificApi = (req, res) => {
     .catch((err) => console.log(err));
 };
 //TOKEN
-function authenticateToken(req, res) {
+exports.authenticateToken = (req, res, next) => {
   console.log("A autorizar...");
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -78,6 +72,7 @@ function authenticateToken(req, res) {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.email = user;
+    next()
   });
 }
 const nodemailer = require("nodemailer");
@@ -91,17 +86,19 @@ async function enviaEmail(recipients, URLconfirm) {
 
   // Cria um objeto transporter reutilizável que é um transporter SMTP
   let transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true para 465, false para outras portas
     auth: {
-      user: process.env.GMAIL_EMAIL, // utilizador ethereal gerado
-      pass: process.env.GMAIL_PASS, // senha do utilizador ethereal
+      user: testAccount.user, // utilizador ethereal gerado
+      pass: testAccount.pass, // senha do utilizador ethereal
     },
   });
 
   // envia o email usando o objeto de transporte definido
   let info = await transporter.sendMail({
-    from: '"Filipe Macedo" <filipemacedo55@gmail.com>', // endereço do originador
-    to: "kjc71139@zwoho.com", // lista de destinatários
+    from: '"Fred Foo 👻" <foo@example.com>', // endereço do originador
+    to: recipients, // lista de destinatários
     subject: "Hello ✔", // assunto
     text: "Link to activate: " + URLconfirm, // corpo do email
     html: "<b>Link to activate: " + URLconfirm + "</b>", // corpo do email em html
@@ -123,7 +120,7 @@ exports.verificaUtilizador = async (req, res) => {
   db.crUd_ativar(confirmationCode);
   const resposta = { message: "O utilizador está ativo!" };
   console.log(resposta);
-  return res.send(resposta);
+  return res.redirect('/confirmation.html');
 };
 
 // REGISTAR - cria um novo utilizador

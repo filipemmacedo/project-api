@@ -1,7 +1,0 @@
-POST http://localhost:8000/api/registar
-Content-Type: application/json
-
-{
-    "email":"filipemacedo55@gmail.com",
-    "pass":"111"
-}

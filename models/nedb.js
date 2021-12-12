@@ -64,3 +64,27 @@ exports.Crud_registar = (email, password, confirmationToken) => {
     });
   });
 };
+exports.Crud_read = (email, confirmationToken) => {
+  return new Promise((resolve, reject) => {
+    // busca os registos que contêm a chave
+    db.users.findOne(
+      {
+        _id: email,
+        confirmationToken: confirmationToken
+      },
+      (err, user) => {
+        if (err) {
+          reject({ msg: "Problemas na base de dados!" });
+        } else {
+          if (user == null) {
+            reject({ msg: "Utilizador inexistente!" });
+          } else if (user.confirm != 1) {
+            reject({ msg: "Ativação pendente. Verifique seu email!" });
+          } else {
+            resolve(user);
+          }
+        }
+      }
+    );
+  });
+}

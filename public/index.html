@@ -1,188 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Registar, Login, Autenticar, Logoff</title>
+    <title>Technology News</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.10.2/css/all.css"
-    />
-
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://www.markuptag.com/bootstrap/5/css/bootstrap.min.css"
-    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css"/>
+    <link rel="stylesheet" href="https://www.markuptag.com/bootstrap/5/css/bootstrap.min.css"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   </head>
   <body>
-    <!-- Click on Modal Button -->
-    <!-- <button type="button" class="btn btn-primary mx-auto d-block mt-5" data-bs-toggle="modal" data-bs-target="#modalLogin"> -->
-    <button
-      type="button"
-      class="btn btn-primary mx-auto d-block mt-5"
-      id="btnModalLogin"
-    >
-      Fazer login
-    </button>
-
-    <button
-      type="button"
-      class="btn btn-primary mx-auto d-block mt-5"
-      id="btnModalRegistar"
-    >
-      Registar
-    </button>
-
-    <button
-      type="button"
-      class="btn btn-warning mx-auto d-block mt-5"
-      id="btnLogoff"
-    >
-      Fazer logoff
-    </button>
-
-    <!-- Modal para registar novo utilizador -->
-    <!-- se retirar o data-bs-backdrop, o modal desaparece ao clicar no fundo da página -->
-    <div
-      class="modal fade"
-      id="modalRegistar"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-    >
+<header>
+  <nav class="main-nav">
+    <ul>
+      <li class="logo">TechFetch</li>
+      <li>
+        <button type="button" class="btn btn-light" id="btnModalRegistar">
+          Register
+        </button>
+        <button type="button" class="btn btn-light" id="btnModalLogin">
+          Login
+        </button>
+      </li>
+      <li id="btnLogoff"></li>
+  </ul>
+    <div class="modal fade" id="modalRegistar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Registo de novo utilizador
+              Register new user
             </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
               <label class="form-label">E-Mail</label>
-              <input
-                type="email"
-                class="form-control"
-                id="usernameRegistar"
-                name="usernameRegistar"
-                placeholder="E-Mail"
-              />
+              <input type="email" class="form-control" id="usernameRegistar" name="usernameRegistar" placeholder="E-Mail"/>
               <p id="emailErroLoginRegistar"></p>
             </div>
             <div class="mb-3">
-              <label class="form-label">Senha</label>
-              <input
-                type="password"
-                class="form-control"
-                id="senhaRegistar"
-                name="senhaRegistar"
-                placeholder="Senha"
-              />
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" id="senhaRegistar" name="senhaRegistar" placeholder="Password"/>
               <p id="statusRegistar"></p>
             </div>
             <div class="modal-footer d-block">
-              <button class="btn btn-warning float-end" data-bs-dismiss="modal">
-                Cancelar
+              <button class="btn btn-light float-end" data-bs-dismiss="modal">
+                Cancel
               </button>
-              <button
-                class="btn btn-success float-end"
-                id="btnSubmitRegistar"
-                onclick="validaRegisto()"
-              >
-                Submeter
+              <button class="btn btn-primary float-end" id="btnSubmitRegistar" onclick="validaRegisto()">
+                Submit
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Modal para fazer login -->
-    <!-- se retirar o data-bs-backdrop, o modal desaparece ao clicar no fundo da página -->
-    <div
-      class="modal fade"
-      id="modalLogin"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-    >
+    <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Insira suas credenciais
+              Login Credentials
             </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              id="btnLoginClose"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btnLoginClose"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
               <label class="form-label">E-Mail</label>
-              <input
-                type="email"
-                class="form-control"
-                id="usernameLogin"
-                name="usernameLogin"
-                placeholder="E-Mail"
-              />
+              <input type="email" class="form-control" id="usernameLogin" name="usernameLogin" placeholder="E-Mail"/>
               <p id="emailErroLogin"></p>
             </div>
             <div class="mb-3">
-              <label class="form-label">Senha</label>
-              <input
-                type="password"
-                class="form-control"
-                id="senhaLogin"
-                name="senhaLogin"
-                placeholder="Senha"
-              />
+              <label class="form-label">Passwrod</label>
+              <input type="password" class="form-control" id="senhaLogin" name="senhaLogin" placeholder="Password"/>
               <p id="passErroLogin"></p>
               <p id="statusLogin"></p>
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="rememberMe" />
               <label class="form-check-label" for="rememberMe"
-                >Lembrar-me</label
+                >Remember me</label
               >
             </div>
             <div class="modal-footer d-block">
               <p class="float-start">
-                Sem conta ainda? <a href="#">Registe-se</a>
+                No account yet? <a href="#">Register</a>
               </p>
-              <button class="btn btn-warning float-end" data-bs-dismiss="modal">
-                Cancelar
+              <button class="btn btn-light float-end" data-bs-dismiss="modal">
+                Cancel
               </button>
-              <button
-                class="btn btn-success float-end"
-                id="btnSubmitLogin"
-                onclick="validaLogin()"
-              >
-                Submeter
+              <button class="btn btn-primary float-end" id="btnSubmitLogin" onclick="validaLogin()">
+                Submit
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://www.markuptag.com/bootstrap/5/js/bootstrap.bundle.min.js"></script>
-
-    <script src="js/users.js"></script>
+  </nav>
+  <div class="main-banner">
+    <h1 data-aos="fade-up">The Latest Tech News from Portugal</h1>
+  </div>
+</header>
+  <script src="https://www.markuptag.com/bootstrap/5/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/users.js"></script>
+  <script>
+    AOS.init();
+  </script>
   </body>
 </html>
