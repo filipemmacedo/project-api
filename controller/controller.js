@@ -118,8 +118,6 @@ async function enviaEmail(recipients, URLconfirm) {
 exports.verificaUtilizador = async (req, res) => {
   const confirmationCode = req.params.confirmationCode;
   db.crUd_ativar(confirmationCode);
-  const resposta = { message: "O utilizador está ativo!" };
-  console.log(resposta);
   return res.redirect('/confirmation.html');
 };
 
@@ -135,13 +133,14 @@ exports.registar = async (req, res) => {
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(req.body.password, salt);
     const email = req.body.email;
+    const username = req.body.username;
     const password = hashPassword;
     const confirmationToken = jwt.sign(
       req.body.email,
       process.env.ACCESS_TOKEN_SECRET
     )
     const URLconfirm = `http://localhost:8000/api/auth/confirm/${confirmationToken}`
-    db.Crud_registar(email, password, confirmationToken) // C: Create
+    db.Crud_registar(username, email, password, confirmationToken) // C: Create
       .then((dados) => {
         enviaEmail(email, URLconfirm).catch(console.error);
         res.status(201).send({

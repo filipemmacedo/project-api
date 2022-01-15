@@ -30,6 +30,7 @@ btnLogoff.addEventListener("click", () => {
 });
 
 function validaRegisto() {
+  let username = document.getElementById("username").value; // email é validado pelo próprio browser
   let email = document.getElementById("usernameRegistar").value; // email é validado pelo próprio browser
   let senha = document.getElementById("senhaRegistar").value; // tem de ter uma senha
   const statReg = document.getElementById("statusRegistar");
@@ -43,7 +44,7 @@ function validaRegisto() {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     method: "POST",
-    body: `email=${email}&password=${senha}`,
+    body: `username=${username}&email=${email}&password=${senha}`,
   })
     .then(async (response) => {
       if (!response.ok) {
@@ -102,6 +103,7 @@ function fetchApiToken() {
     document.getElementById("btnLogoff").innerHTML = '<button type="button" class="btn btn-light" id="btnLogoff">Sign Out</button>'
     document.getElementById("btnModalRegistar").style.display = "none"
     document.getElementById("btnModalLogin").style.display = "none"
+    document.getElementById("token").innerHTML = `${token}`
   } else {
     document.getElementById("btnLogoff").style.display = "none"
   }
