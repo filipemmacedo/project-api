@@ -54,11 +54,52 @@ exports.Crud_registar = (username, email, password, confirmationToken) => {
       confirm: 0,
       password: password,
       confirmationToken: confirmationToken,
+      admin: 0,
     };
     db.users.insert(data, (err, dados) => {
       if (err) {
         reject(null);
       } else {
+        resolve(dados);
+      }
+    });
+  });
+};
+
+exports.Crud_listUsers = (req, res) => {
+  return new Promise((resolve, reject) => {
+    // lê todos os registos
+    db.users.find({}, (err, dados) => {
+      if (err) {
+        reject("Não existem utilizadores!");
+      } else {
+        resolve(dados);
+      }
+    });
+  });
+};
+
+exports.Crud_listNewspapers = (req, res) => {
+  return new Promise((resolve, reject) => {
+    // lê todos os registos
+    db.users.find({}, (err, dados) => {
+      if (err) {
+        reject("Não existem utilizadores!");
+      } else {
+        resolve(dados);
+      }
+    });
+  });
+};
+
+exports.Crud_saveUser = (username, email, isAdmin) => {
+  return new Promise((resolve, reject) => {
+    db.users.update({ _id: email }, { $set: { username: username, admin: isAdmin } }, {},  (err,dados) => {
+      if (err) {
+        console.log(err);
+      //  reject("Utilizador não existe!");
+      } else {
+        console.log(dados);
         resolve(dados);
       }
     });

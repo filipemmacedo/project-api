@@ -1,60 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
- * {
-     margin: 0;
-     padding: 0;
-    font-family: 'Roboto Condensed', sans-serif;
- }
- .main-nav {
-     background-color: #F9FAFB;
- }
- .main-nav ul{
-     display: flex;
-     flex-direction: row;
-     justify-content: space-between;
-     align-items: center;
-     width: 100%;
-     padding: 0;
-     margin: 0;
- }
- .main-nav ul .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
- }
- .main-nav ul li{
-     list-style: none;     
-     padding: 10px 20px;
- }
- .main-banner {
-     background-image: url("/img/earth.jpeg");
-     background-size: cover;
-     background-position: 50% 20%;
-     margin: 0;
-     height: 400px;
-     width: 100%;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
- }
- .main-banner h1{
-     font-size: 3rem;
-     color: white;
-     text-align: center;
- }
- .main-banner p{
-     font-size: 1rem;
-     color: white;
-     text-align: center;
- }
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto Condensed", sans-serif;
+}
+.main-nav {
+  background-color: #f9fafb;
+}
+.main-nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.main-nav ul .logo {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+}
+.main-nav ul li {
+  list-style: none;
+  padding: 10px 20px;
+}
+.main-banner {
+  background-image: url("/img/earth.jpeg");
+  background-size: cover;
+  background-position: 50% 20%;
+  margin: 0;
+  height: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main-banner h1 {
+  font-size: 3rem;
+  color: white;
+  text-align: center;
+}
+.main-banner p {
+  font-size: 1rem;
+  color: white;
+  text-align: center;
+}
 /* Confirmation Page */
 .container-confirm {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .container-confirm p:first-child {
-    font-size: 2.5rem;
-    font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+/*  Manter cartaz com tamanho igual  */
+.row .card-img-top {
+  height: 200px;
+}
+.img-thumbnail {
+  max-height: 200px;
 }

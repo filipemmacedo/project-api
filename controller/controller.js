@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const data = require("../data/data");
+let data = require("../data/data");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const bcrypt = require("bcrypt");
@@ -13,11 +13,10 @@ data.forEach((newspaper) => {
   axios.get(newspaper.address).then((response) => {
     const html = response.data;
     const $ = cheerio.load(html);
-
     $('a[href*="tecnologia"]', html).each(function () {
       const title = $(this).text();
       const url = $(this).attr("href");
-
+      //console.log(newspaper);
       articles.push({
         title,
         url: newspaper.base + url,
@@ -60,6 +59,7 @@ exports.getSpecificApi = (req, res) => {
     })
     .catch((err) => console.log(err));
 };
+
 //TOKEN
 exports.authenticateToken = (req, res, next) => {
   console.log("A autorizar...");
@@ -129,6 +129,7 @@ exports.registar = async (req, res) => {
       message: "O conteúdo não pode ser vazio!",
     });
   }
+  console.log(req.body.email)
   try {
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -151,6 +152,7 @@ exports.registar = async (req, res) => {
         console.log(JSON.stringify(dados)); // para debug
       });
   } catch {
+    console.log(res.err);
     return res.status(400).send({ message: "Problemas ao criar utilizador" });
   }
 };
@@ -186,3 +188,92 @@ exports.login = async (req, res) => {
       return res.status(400).send(response);
     });
 };
+
+exports.geAllUsers = async (req, res) => {
+  console.log("Lista de utilizadores");
+
+  db.Crud_listUsers(req, res) //  lista utilizadores
+    .then((dados) => {
+      res.send(dados);
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .send({ message: "Não existem utilizadores!" });
+    });
+};
+
+exports.getAllNewspapers = (req, res) => {
+  console.log("Lista de Jornais");
+  res.json(data);
+}
+
+exports.postUser = (req, res) => {
+  console.log("Salvar alterações do utilizador");
+  const email = req.params.email;
+  const username = req.body.username;
+  const isAdmin = req.body.admin;
+  db.Crud_saveUser(username, email, isAdmin)
+    .then((dados) => {
+      res.send("Gravado com sucesso!");
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .send({ message: "Utilizador não foi encontrado." });
+    });
+}
+
+exports.saveNewspaper = (req, res) => {
+  let ok = false;
+
+  const name = req.params.name;
+  const address = req.body.address;
+  const base = req.body.base;
+  const img = req.body.img;
+
+  console.log("Salvar alterações no jornal");
+  console.log(req.params.name)
+  console.log(address)
+  console.log(base)
+  console.log(img)
+  for (v_index in data) {
+    if (data[v_index].name == name) {
+      data[v_index].address = address;
+      data[v_index].base = base;
+      data[v_index].img = img;
+      console.log("Gravou");
+      ok = true;
+      break;
+    }
+  }
+  if (ok) {
+    data.push();
+    res.status(200).send("Gravado com sucesso!");
+  } else {
+    return res
+        .status(400)
+        .send({ message: "Jornal não foi encontrado." });
+  }
+}
+
+exports.createNewspaper = (req, res) => {
+  let ok = false;
+  const name = req.body.name;
+  const address = req.body.address;
+  const base = req.body.base;
+  const img = req.body.img;
+
+  console.log("Criar novo jornal");
+  obj = req.body;
+  data.push(obj);
+
+  console.log("Criou com sucesso!");
+  ok = true;
+
+  if (ok) {
+    res.send("Criado com sucesso!");
+  } else {
+    res.send("Erro ao criar o jornal.");
+  }
+}

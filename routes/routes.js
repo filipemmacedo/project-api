@@ -14,6 +14,16 @@ module.exports = (app) => {
 
   router.get("/auth/confirm/:confirmationCode", controller.verificaUtilizador);
 
+  router.get("/users", controller.authenticateToken, controller.geAllUsers);
+
+  router.get("/newspapers", controller.authenticateToken, controller.getAllNewspapers);
+
+  router.post("/users/:email", controller.authenticateToken, controller.postUser);
+
+  router.post("/newspaper/:name", controller.authenticateToken, controller.saveNewspaper);
+
+  router.put("/newspaper/", controller.authenticateToken, controller.createNewspaper);
+
   app.use('/api', router);
 
 };
