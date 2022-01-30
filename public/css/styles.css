@@ -25,13 +25,13 @@
   padding: 10px 20px;
 }
 .main-banner {
-  background-image: url("/img/earth.jpeg");
-  background-size: cover;
-  background-position: 50% 20%;
+  /* background-image: url("/img/earth.jpeg"); */
+  /* background-size: cover;
+  background-position: 50% 20%; */
   margin: 0;
   height: 400px;
   width: 100%;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -66,3 +66,15 @@
 .img-thumbnail {
   max-height: 200px;
 }
+
+.d-block{
+   height: 400px;
+}
+
+.centered {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-text-stroke: 2px black;
+  }

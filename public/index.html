@@ -192,20 +192,34 @@
       </nav>
       <div id="listUsers"></div>
       <div class="main-banner">
-        <h1 data-aos="fade-up">The Latest Tech News from Portugal</h1>
-        <p id="token" data-aos="fade-up"></p>
-        <p id="container" data-aos="fade-up"></p>
+        <div
+          id="carouselSlidesOnly"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="./img/banner/banner4.jpg" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+              <img src="./img/banner/banner1.png" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+              <img src="./img/banner/banner2.jpg" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+              <img src="./img/banner/banner3.jpg" class="d-block w-100" alt="..." />
+            </div>
+          </div>
+        </div>
+        <div class="centered">
+          <h1 data-aos="fade-up">The Latest Tech News from Portugal</h1>
+          <p id="token" data-aos="fade-up"></p>
+          <p id="container" data-aos="fade-up"></p>
+        </div>
       </div>
     </header>
     <div class="container">
-      <!-- <button
-        type="button"
-        id="searchbtn"
-        class="btn btn-primary"
-        onclick="getNews('')"
-      >
-        Get Noticias
-      </button> -->
     </div>
     <div id="ListaNewspappers">
       <!-- Conteúdo a ser injetado via JavaScript -->
@@ -218,7 +232,6 @@
     <!-- <script src="js/fetch.js"></script> -->
     <script>
       AOS.init();
-      getNews('')
     </script>
   </body>
 </html>

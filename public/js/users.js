@@ -318,6 +318,7 @@ async function fetchApiToken() {
         alert(response.error)
       }
     });
+    getNews("");
     document.getElementById("nespaperslist").innerHTML = selectBox;
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnUsers" onclick="getUsers();">Users</button>'
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnNewspapper" onclick="getAllNewspapers();">NewsPapers</button>'
