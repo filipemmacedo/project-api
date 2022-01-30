@@ -181,13 +181,27 @@ function editUser(v_user, v_id, v_isAdmin) {
 
 
 function validaRegisto() {
-  let username = document.getElementById("username").value; // email é validado pelo próprio browser
+  let username = document.getElementById("username").value;
   let email = document.getElementById("usernameRegistar").value; // email é validado pelo próprio browser
   let senha = document.getElementById("senhaRegistar").value; // tem de ter uma senha
   const statReg = document.getElementById("statusRegistar");
+  let errMsg = "";
+  if (username == "") {
+    errMsg += "Name is riquired!<br>";
+  }
+  if (email == "") {
+    errMsg += "Email is riquired!<br>";
+  }
   if (senha.length < 4) {
-    document.getElementById("passErroLogin").innerHTML =
-      "A senha tem de ter ao menos 4 carateres";
+    errMsg += "Password must have at least 4 characters!<br>";
+  }
+  if (errMsg != "") {
+    Swal.fire({
+      icon: "error",
+      title: errMsg,
+      showConfirmButton: false,
+      timer: 1500,
+    });
     return;
   }
   fetch(`${urlBase}/registar`, {
@@ -205,6 +219,14 @@ function validaRegisto() {
       }
       result = await response.json();
       console.log(result.message);
+      document.getElementById("btnRegisterClose").click();
+      Swal.fire({
+        icon: "success",
+        text: result.message,
+        showConfirmButton: true,
+      }).then((result) => {
+        document.location.reload(true);
+      });
       statReg.innerHTML = result.message;
     })
     .catch((error) => {
@@ -217,9 +239,21 @@ function validaRegisto() {
 function validaLogin() {
   let email = document.getElementById("usernameLogin").value; // email é validado pelo próprio browser
   let senha = document.getElementById("senhaLogin").value; // tem de ter uma senha
+  let errMsg = "";
+  if (email == "") {
+    errMsg += "Email is riquired!<br>"
+  }
   if (senha.length < 4) {
-    document.getElementById("passErroLogin").innerHTML =
-      "A senha tem de ter ao menos 4 carateres";
+    errMsg += "Password must have at least 4 characters!<br>";
+  }
+  if (errMsg != "") {
+    Swal.fire({
+      icon: "error",
+      title: errMsg,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
     return;
   }
   const statLogin = document.getElementById("statusLogin");
@@ -240,24 +274,51 @@ function validaLogin() {
       console.log(result.accessToken);
       const token = result.accessToken;
       localStorage.setItem("token", token);
-      document.getElementById("statusLogin").innerHTML = "Sucesso!";
       document.getElementById("btnLoginClose").click();
-      document.location.reload(true)
+      Swal.fire({
+        icon: "success",
+        text: "Login successful!",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then((result) => {
+        document.location.reload(true);
+      });
     })
     .catch(async (error) => {
-      statLogin.innerHTML = error
+      Swal.fire({
+        icon: "error",
+        title: error,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
 }
-function fetchApiToken() {
+async function fetchApiToken() {
   let token = localStorage.getItem('token') //mostrar token
   if (token) {
-    document.getElementById("nespaperslist").innerHTML = `<select name="newspapers" id="newspapers" class="form-select form-select-sml">
-    <option value="">NewsPapers</option>
-    <option value="publico">Publico</option>
-    <option value="sapo">Sapo</option>
-    <option value="jornaldenegocios">Jornal de Negócios</option>
-    <option value="jornaldenoticias">Jornal de Noticias</option>
-  </select>`;
+    let url = urlBase + "/newspapers";
+    const myInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": "Bearer " + localStorage.getItem('token'),
+      },
+    };
+    const myRequest = new Request(url, myInit);
+    let selectBox = `<select name="newspapers" id="newspapers" class="form-select form-select-sml" onchange="getNews(this.value);">
+						<option value="">NewsPapers</option>`;
+    await fetch(myRequest).then(async function (response) {
+      if (response.ok) {
+        listNewspapers = await response.json();
+        for (const newspaper of listNewspapers) {
+          selectBox += `<option value="${newspaper.name}">${newspaper.name.replace(/-/g, " ").initCap()}</option>`
+        }
+        selectBox += `</select>`;
+      } else {
+        alert(response.error)
+      }
+    });
+    document.getElementById("nespaperslist").innerHTML = selectBox;
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnUsers" onclick="getUsers();">Users</button>'
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnNewspapper" onclick="getAllNewspapers();">NewsPapers</button>'
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnLogoff" onclick="logOff();">Sign Out</button>'
@@ -270,3 +331,9 @@ function fetchApiToken() {
   }
 }
 fetchApiToken()
+
+String.prototype.initCap = function () {
+  return this.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
+    return m.toUpperCase();
+  });
+};

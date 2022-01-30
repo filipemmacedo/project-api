@@ -21,6 +21,7 @@ data.forEach((newspaper) => {
         title,
         url: newspaper.base + url,
         source: newspaper.name,
+        img: newspaper.img,
       });
     });
   });
@@ -32,13 +33,19 @@ exports.getApi = (req, res) => {
 
 exports.getSpecificApi = (req, res) => {
   const newspaperId = req.params.newspaperId;
+  let v_img = "";
   const newspaperAddress = data.filter(
     (newspaper) => newspaper.name == newspaperId
   )[0].address;
   const newspaperBase = data.filter(
     (newspaper) => newspaper.name == newspaperId
   )[0].base;
-
+  for (v_index in data) {
+    if (data[v_index].name == req.params.newspaperId) {
+      v_img = data[v_index].img;
+      break;
+    }
+  }
   axios
     .get(newspaperAddress)
     .then((response) => {
@@ -53,6 +60,7 @@ exports.getSpecificApi = (req, res) => {
           title,
           url: newspaperBase + url,
           source: newspaperId,
+          img:v_img,
         });
       });
       res.json(specificArticles);
@@ -272,7 +280,46 @@ exports.createNewspaper = (req, res) => {
   ok = true;
 
   if (ok) {
+    articles = [];
+    data.forEach((newspaper) => {
+      axios.get(newspaper.address).then((response) => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        $('a[href*="tecnologia"]', html).each(function () {
+          const title = $(this).text();
+          const url = $(this).attr("href");
+          //console.log(newspaper);
+          articles.push({
+            title,
+            url: newspaper.base + url,
+            source: newspaper.name,
+            img: newspaper.img,
+          });
+        });
+      });
+    });
     res.send("Criado com sucesso!");
+  } else {
+    res.send("Erro ao criar o jornal.");
+  }
+}
+
+exports.getImageFromNewspaper = (req,res) => {
+  let ok = false;
+  let img = "";
+
+  const name = req.params.name;
+  for (v_index in data) {
+    if (data[v_index].name == name) {
+      img=data[v_index].img;
+      ok=true;
+      break;
+    }
+  }if (ok) {
+    let imgdata={
+      img:img,
+    }
+    res.json(imgdata);
   } else {
     res.send("Erro ao criar o jornal.");
   }

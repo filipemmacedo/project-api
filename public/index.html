@@ -55,6 +55,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  id="btnRegisterClose"
                 ></button>
               </div>
               <div class="modal-body">
@@ -197,14 +198,14 @@
       </div>
     </header>
     <div class="container">
-      <button
+      <!-- <button
         type="button"
         id="searchbtn"
         class="btn btn-primary"
-        onclick="getNews()"
+        onclick="getNews('')"
       >
         Get Noticias
-      </button>
+      </button> -->
     </div>
     <div id="ListaNewspappers">
       <!-- Conteúdo a ser injetado via JavaScript -->
@@ -217,6 +218,7 @@
     <!-- <script src="js/fetch.js"></script> -->
     <script>
       AOS.init();
+      getNews('')
     </script>
   </body>
 </html>

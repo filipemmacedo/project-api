@@ -18,6 +18,8 @@ module.exports = (app) => {
 
   router.get("/newspapers", controller.authenticateToken, controller.getAllNewspapers);
 
+  router.get("/imgNewspapers/:name", controller.authenticateToken, controller.getImageFromNewspaper);
+
   router.post("/users/:email", controller.authenticateToken, controller.postUser);
 
   router.post("/newspaper/:name", controller.authenticateToken, controller.saveNewspaper);

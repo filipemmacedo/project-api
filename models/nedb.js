@@ -79,19 +79,6 @@ exports.Crud_listUsers = (req, res) => {
   });
 };
 
-exports.Crud_listNewspapers = (req, res) => {
-  return new Promise((resolve, reject) => {
-    // lê todos os registos
-    db.users.find({}, (err, dados) => {
-      if (err) {
-        reject("Não existem utilizadores!");
-      } else {
-        resolve(dados);
-      }
-    });
-  });
-};
-
 exports.Crud_saveUser = (username, email, isAdmin) => {
   return new Promise((resolve, reject) => {
     db.users.update({ _id: email }, { $set: { username: username, admin: isAdmin } }, {},  (err,dados) => {

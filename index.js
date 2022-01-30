@@ -5,6 +5,7 @@ const app = express()
 app.use(express.json()); // Faz o parse (validação e interpretação) de solicitações do tipo application/json
 app.use(express.urlencoded({ extended: true })); // Faz o parse do conteúdo tipo application/x-www-form-urlencoded
 require("./routes/routes")(app);
+require("./routes/uploadImg")(app);
 
 app.listen(PORT, () => console.log(`server running on PORT ${PORT}`))
 

@@ -1,8 +1,28 @@
 const urlBase = "http://localhost:8000/api";
 const listaNewspapper = document.getElementById("ListaNewspappers");
 
-async function getNews() {
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
+ function getNews(v_name) {
     let url = urlBase + "/news";
+    if (v_name != "") {
+        url += "/" + v_name;
+    }
+    listaNewspapper.innerHTML = `    <br><br>
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>&nbsp;
+                                    <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;"></div>&nbsp;
+                                    <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;"></div>&nbsp;
+                                    <div class="spinner-border text-info" role="status" style="width: 3rem; height: 3rem;"></div>&nbsp;
+                                    <div class="spinner-border text-dark" role="status" style="width: 3rem; height: 3rem;"></div>
+                                    <span class="sr-only">Loading...</span>
+                                </div> `;
 
     const myInit = {
         method: "GET",
@@ -13,7 +33,8 @@ async function getNews() {
     };
     const myRequest = new Request(url, myInit);
 
-    await fetch(myRequest).then(async function (response) {
+     fetch(myRequest).then(async function (response) {
+        sleep(1000);
         if (!response.ok) {
             listaNewspapper.innerHTML = "Não posso mostrar as noticias de momento!";
         } else {
@@ -30,22 +51,6 @@ async function getNews() {
                     && auxNews != 'Tecnologia'
                     && !auxNews.match(/coment�rios*/)
                     && !newspapper.url.match(/hamburger*./)) {
-                    switch (newspapper.source) {
-                        case 'jornal-de-noticias':
-                            logoNews = '../img/jornaldenoticias.png';
-                            break;
-                        case 'jornal-de-negocios':
-                            logoNews = '../img/jornaldenegocios.png';
-                            break;
-                        case 'publico':
-                            logoNews = '../img/publico.png';
-                            break;
-                        case 'sapo':
-                            logoNews = '../img/sapo.png';
-                            break;
-
-                    }
-                    //logoNews = '../img/'+newspapper.img;
                     titulo = newspapper.title;
                     if (titulo.length > 60) {
                         titulo = titulo.substring(0, 60) + ' . . .';
@@ -53,7 +58,7 @@ async function getNews() {
                     texto += ` 
                     <div class="col-xl-3 col-md-6 mb-4" data-toggle="modal" >
                     <div class="card border-0 shadow">
-                    <img src="${logoNews}" class="card-img-top" alt="..." onclick="getNewspapper('${newspapper.url}');">
+                    <img src="../img/${newspapper.img}" class="card-img-top" alt="..." onclick="getNewspapper('${newspapper.url}');">
                     <div class="card-body text-center">
                     <h4>${titulo}</h4>
                     <div class="card-text text-black-50">
@@ -64,9 +69,11 @@ async function getNews() {
                 }
                 listaNewspapper.innerHTML = texto;
             }
-            listaNewspapper.innerHTML += '</div></div></div></section>'
+            listaNewspapper.innerHTML += '</div></div></div></section>';
         }
+
     });
+
 }
 
 async function getAllNewspapers() {
@@ -166,10 +173,8 @@ function editNewspaper(v_nome, v_address, v_base, v_img) {
                 '">' +
                 "</div><br>" +
                 '<div class="form-group">Image' +
-                ' <input type="text" name="img" id="img" class="form-control input-sm" placeholder="ii" value="' +
-                v_img +
-                '">' +
-                "</div><br>" +
+                ' <input type="file" name="img" id="img" class="form-control input-sm" placeholder="image" value="">' +
+                '</div><br>' +
                 "</form>",
             preConfirm: () => {
                 let error_msg = "";
@@ -191,7 +196,7 @@ function editNewspaper(v_nome, v_address, v_base, v_img) {
                 if (document.getElementById("img").value == "") {
                     img = v_img;
                 } else {
-                    img = document.getElementById("img").value
+                    img = document.getElementById("img").files[0].name
                 }
                 fetch(`${urlBase}/newspaper/${v_nome}`, {
                     method: "POST",
@@ -206,6 +211,14 @@ function editNewspaper(v_nome, v_address, v_base, v_img) {
                             erro = response.statusText;
                             statReg.innerHTML = response.statusText;
                             throw new Error(erro);
+                        }
+                        if (document.getElementById("img").value != "") {
+                            let formData = new FormData();
+                            formData.append("file", document.getElementById("img").files[0]);
+                            await fetch('/img', {
+                                method: "POST",
+                                body: formData
+                            });
                         }
                         Swal.fire({
                             icon: "success",
@@ -242,7 +255,7 @@ function createNewspaper() {
             confirmButtonText: "Gravar",
             confirmButtonColor: "#218838",
             cancelButtonText: "Fechar",
-            html: ' <form id="movieForm">' +
+            html: ' <form id="newspaperForm">' +
                 '<div class="form-group">' +
                 '<i class="fas fa-newspaper fa-5x"></i>' +
                 '</div><br><br>' +
@@ -296,8 +309,13 @@ function createNewspaper() {
                             statReg.innerHTML = response.statusText;
                             throw new Error(erro);
                         }
-
-                        req.send(formData);
+                        let formData = new FormData();
+                        formData.append("file", document.getElementById("img").files[0]);
+                        await fetch('/img', {
+                            method: "POST",
+                            body: formData
+                        });
+                        alert('The file has been uploaded successfully.');
                         Swal.fire({
                             icon: "success",
                             title: name,
@@ -322,3 +340,4 @@ function createNewspaper() {
             }
         });
 }
+
