@@ -293,33 +293,11 @@ function validaLogin() {
       });
     });
 }
-async function fetchApiToken() {
+function fetchApiToken() {
   let token = localStorage.getItem('token') //mostrar token
   if (token) {
-    let url = urlBase + "/newspapers";
-    const myInit = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer " + localStorage.getItem('token'),
-      },
-    };
-    const myRequest = new Request(url, myInit);
-    let selectBox = `<select name="newspapers" id="newspapers" class="form-select form-select-sml" onchange="getNews(this.value);">
-						<option value="">NewsPapers</option>`;
-    await fetch(myRequest).then(async function (response) {
-      if (response.ok) {
-        listNewspapers = await response.json();
-        for (const newspaper of listNewspapers) {
-          selectBox += `<option value="${newspaper.name}">${newspaper.name.replace(/-/g, " ").initCap()}</option>`
-        }
-        selectBox += `</select>`;
-      } else {
-        alert(response.error)
-      }
-    });
+    getSelectBox();
     getNews("");
-    document.getElementById("nespaperslist").innerHTML = selectBox;
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnUsers" onclick="getUsers();">Users</button>'
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnNewspapper" onclick="getAllNewspapers();">NewsPapers</button>'
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnLogoff" onclick="logOff();">Sign Out</button>'
@@ -338,3 +316,31 @@ String.prototype.initCap = function () {
     return m.toUpperCase();
   });
 };
+
+async function getSelectBox() {
+  alert('sss');
+  document.getElementById("nespaperslist").innerHTML ="";
+  let url = urlBase + "/newspapers";
+  const myInit = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": "Bearer " + localStorage.getItem('token'),
+    },
+  };
+  const myRequest = new Request(url, myInit);
+  let selectBox = `<select name="newspapers" id="newspapers" class="form-select form-select-sml" onchange="getNews(this.value);">
+          <option value="">NewsPapers</option>`;
+  await fetch(myRequest).then(async function (response) {
+    if (response.ok) {
+      listNewspapers = await response.json();
+      for (const newspaper of listNewspapers) {
+        selectBox += `<option value="${newspaper.name}">${newspaper.name.replace(/-/g, " ").initCap()}</option>`
+      }
+      selectBox += `</select>`;
+    } else {
+      alert(response.error)
+    }
+  });
+  document.getElementById("nespaperslist").innerHTML = selectBox;
+}
