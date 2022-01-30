@@ -220,6 +220,8 @@ function editNewspaper(v_nome, v_address, v_base, v_img) {
                                 body: formData
                             });
                         }
+                        getAllNewspapers();
+                        getSelectBox();
                         Swal.fire({
                             icon: "success",
                             title: v_nome,
@@ -290,6 +292,7 @@ function createNewspaper() {
         }).then((result) => {
             if (!result.isConfirmed) {
                 getAllNewspapers();
+                getSelectBox();
             } else {
                 const name = document.getElementById("name").value;
                 const address = document.getElementById("address").value;
