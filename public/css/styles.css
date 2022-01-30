@@ -4,48 +4,19 @@
   padding: 0;
   font-family: "Roboto Condensed", sans-serif;
 }
-.main-nav {
-  background-color: #f9fafb;
+.navbar-toggler:focus {
+  box-shadow: none !important;
 }
-.main-nav ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
+/* @media (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse {
+    width: 80%;
+} */
+
 .main-nav ul .logo {
   font-family: "Playfair Display", serif;
   font-size: 2rem;
 }
-.main-nav ul li {
-  list-style: none;
-  padding: 10px 20px;
-}
-.main-banner {
-  /* background-image: url("/img/earth.jpeg"); */
-  /* background-size: cover;
-  background-position: 50% 20%; */
-  margin: 0;
-  height: 400px;
-  width: 100%;
-  /* display: flex; */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.main-banner h1 {
-  font-size: 3rem;
-  color: white;
-  text-align: center;
-}
-.main-banner p {
-  font-size: 1rem;
-  color: white;
-  text-align: center;
-}
+
 /* Confirmation Page */
 .container-confirm {
   height: 100vh;
@@ -70,11 +41,16 @@
 .d-block{
    height: 400px;
 }
-
-.centered {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-text-stroke: 2px black;
-  }
+#container-register {
+  width: 100%;
+  padding: 30px 10px;
+}
+#container-register p:first-child{  
+  font-size: 1.5rem;
+  text-align: center;
+}
+#container-register p:last-child{  
+  font-size: 1rem;
+  text-align: justify;
+  line-height: 27px;
+}

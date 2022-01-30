@@ -92,22 +92,19 @@ async function enviaEmail(recipients, URLconfirm) {
   // Somente necessário na fase de testes e se não tiver uma conta real para utilizar
   let testAccount = await nodemailer.createTestAccount();
 
-  // Cria um objeto transporter reutilizável que é um transporter SMTP
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true para 465, false para outras portas
+    service: 'gmail',
     auth: {
-      user: testAccount.user, // utilizador ethereal gerado
-      pass: testAccount.pass, // senha do utilizador ethereal
-    },
+      user: 'apiprojectual@gmail.com',
+      pass: 'api-project-ual'
+    }
   });
 
   // envia o email usando o objeto de transporte definido
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>', // endereço do originador
+    from: 'apiprojectual', // endereço do originador
     to: recipients, // lista de destinatários
-    subject: "Hello ✔", // assunto
+    subject: "Welcome to Technology API ✔", // assunto
     text: "Link to activate: " + URLconfirm, // corpo do email
     html: "<b>Link to activate: " + URLconfirm + "</b>", // corpo do email em html
   });
