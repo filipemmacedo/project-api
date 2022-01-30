@@ -8,7 +8,8 @@ const db = require("../models/nedb");
 const jwt = require("jsonwebtoken");
 
 articles = [];
-
+//  cria lista de noticias de todos os jornais utilizando o axio
+//  tecnologia
 data.forEach((newspaper) => {
   axios.get(newspaper.address).then((response) => {
     const html = response.data;
@@ -27,10 +28,14 @@ data.forEach((newspaper) => {
   });
 });
 
+//  devolve as noticias dos jornais inserido
 exports.getApi = (req, res) => {
   res.json(articles);
 }
 
+
+//  devolve utilizando o axio as noticias de um jornal (Id Jornal)
+//  tecnologia
 exports.getSpecificApi = (req, res) => {
   const newspaperId = req.params.newspaperId;
   let v_img = "";
@@ -120,6 +125,7 @@ async function enviaEmail(recipients, URLconfirm) {
   // URL para visualização prévia: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
+//  Devolve a página de confirmação
 exports.verificaUtilizador = async (req, res) => {
   const confirmationCode = req.params.confirmationCode;
   db.crUd_ativar(confirmationCode);
@@ -134,7 +140,6 @@ exports.registar = async (req, res) => {
       message: "O conteúdo não pode ser vazio!",
     });
   }
-  console.log(req.body.email)
   try {
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -174,7 +179,7 @@ exports.login = async (req, res) => {
   const hashPassword = await bcrypt.hash(req.body.password, salt);
   const email = req.body.email;
   const password = hashPassword;
-  db.cRud_login(email) //
+  db.cRud_login(email) // R: Read
     .then(async (dados) => {
       if (await bcrypt.compare(req.body.password, dados.password)) {
         const user = { name: email };
@@ -197,38 +202,41 @@ exports.login = async (req, res) => {
 exports.geAllUsers = async (req, res) => {
   console.log("Lista de utilizadores");
 
-  db.Crud_listUsers(req, res) //  lista utilizadores
+  db.Crud_listUsers(req, res) //  R: Read lista utilizadores
     .then((dados) => {
       res.send(dados);
     })
-    .catch((err) => {
+    .catch((err) => {  //tratamento de erros
       return res
         .status(400)
         .send({ message: "Não existem utilizadores!" });
     });
 };
 
+// devolve todas as noticias de tecnologia nos jornais criado
 exports.getAllNewspapers = (req, res) => {
   console.log("Lista de Jornais");
   res.json(data);
 }
 
+// guarda as alterações feitas ao utilizador 
 exports.postUser = (req, res) => {
   console.log("Salvar alterações do utilizador");
   const email = req.params.email;
   const username = req.body.username;
   const isAdmin = req.body.admin;
-  db.Crud_saveUser(username, email, isAdmin)
+  db.Crud_saveUser(username, email, isAdmin) // U: Update
     .then((dados) => {
       res.send("Gravado com sucesso!");
     })
-    .catch((err) => {
+    .catch((err) => {  //tratamento de erros
       return res
         .status(400)
         .send({ message: "Utilizador não foi encontrado." });
     });
 }
 
+// guarda as alterações de um jornal
 exports.saveNewspaper = (req, res) => {
   let ok = false;
 
@@ -255,13 +263,14 @@ exports.saveNewspaper = (req, res) => {
   if (ok) {
     data.push();
     res.status(200).send("Gravado com sucesso!");
-  } else {
+  } else {    //tratamento de erros
     return res
         .status(400)
         .send({ message: "Jornal não foi encontrado." });
   }
 }
 
+// cria novo jornal para listagem de noticias
 exports.createNewspaper = (req, res) => {
   let ok = false;
   const name = req.body.name;
@@ -285,7 +294,7 @@ exports.createNewspaper = (req, res) => {
         $('a[href*="tecnologia"]', html).each(function () {
           const title = $(this).text();
           const url = $(this).attr("href");
-          //console.log(newspaper);
+          //console.log(newspaper);   //  para debug
           articles.push({
             title,
             url: newspaper.base + url,
@@ -301,6 +310,7 @@ exports.createNewspaper = (req, res) => {
   }
 }
 
+// devolve a imagem logo do jornal 
 exports.getImageFromNewspaper = (req,res) => {
   let ok = false;
   let img = "";
@@ -318,6 +328,6 @@ exports.getImageFromNewspaper = (req,res) => {
     }
     res.json(imgdata);
   } else {
-    res.send("Erro ao criar o jornal.");
+    res.send("Erro ao devolver a imagem.");
   }
 }

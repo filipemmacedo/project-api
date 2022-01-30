@@ -24,6 +24,8 @@ btnModalLogin.addEventListener("click", () => {
 btnModalRegistar.addEventListener("click", () => {
   bsModalRegistar.show();
 });
+
+// Elimina a token e apresenta a página inicial sem login
 function logOff() {
   localStorage.removeItem("token");
   document.getElementById("isLogin").style.display = "none";
@@ -31,6 +33,7 @@ function logOff() {
   window.location.replace("index.html");
 }
 
+//  Cria modal com a listagem dos utilizadores confirmados
 async function getUsers() {
   let url = urlBase + "/users";
   const myInit = {
@@ -88,6 +91,7 @@ async function getUsers() {
   });
 
 }
+
 //Editar utilizador
 function editUser(v_user, v_id, v_isAdmin) {
   let isChek = "";
@@ -179,7 +183,7 @@ function editUser(v_user, v_id, v_isAdmin) {
     });
 }
 
-
+//  Cria registo de novo utilizador e envia email para confirmação do mesmo
 function validaRegisto() {
   let username = document.getElementById("username").value;
   let email = document.getElementById("usernameRegistar").value; // email é validado pelo próprio browser
@@ -236,6 +240,7 @@ function validaRegisto() {
     });
 }
 
+// login do utilizador
 function validaLogin() {
   let email = document.getElementById("usernameLogin").value; // email é validado pelo próprio browser
   let senha = document.getElementById("senhaLogin").value; // tem de ter uma senha
@@ -293,6 +298,9 @@ function validaLogin() {
       });
     });
 }
+
+// se login ok
+// mostra todas as funcionalidades permitidas ao utilizador
 function fetchApiToken() {
   let token = localStorage.getItem('token') //mostrar token
   if (token) {
@@ -303,22 +311,14 @@ function fetchApiToken() {
     document.getElementById("isLogin").innerHTML += '<button type="button" class="btn btn-light" id="btnLogoff" onclick="logOff();">Sign Out</button>'
     document.getElementById("btnModalRegistar").style.display = "none"
     document.getElementById("btnModalLogin").style.display = "none"
-    document.getElementById("token").innerHTML = `${token}`
   } else {
     document.getElementById("isLogin").style.display = "none";
     document.getElementById("nespaperslist").style.display = "none";
   }
 }
-fetchApiToken()
 
-String.prototype.initCap = function () {
-  return this.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
-    return m.toUpperCase();
-  });
-};
-
+//gera a selct box de filtro de noticias.
 async function getSelectBox() {
-  alert('sss');
   document.getElementById("nespaperslist").innerHTML ="";
   let url = urlBase + "/newspapers";
   const myInit = {
@@ -344,3 +344,12 @@ async function getSelectBox() {
   });
   document.getElementById("nespaperslist").innerHTML = selectBox;
 }
+
+fetchApiToken()
+
+// função para capitalização do titulo dos jornais
+String.prototype.initCap = function () {
+  return this.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
+    return m.toUpperCase();
+  });
+};

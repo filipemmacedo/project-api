@@ -4,13 +4,10 @@
   padding: 0;
   font-family: "Roboto Condensed", sans-serif;
 }
+/* Carrocel */
 .navbar-toggler:focus {
   box-shadow: none !important;
 }
-/* @media (min-width: 992px) {
-  .navbar-expand-lg .navbar-collapse {
-    width: 80%;
-} */
 
 .main-nav ul .logo {
   font-family: "Playfair Display", serif;
@@ -41,6 +38,7 @@
 .d-block{
    height: 400px;
 }
+ /* modal register */
 #container-register {
   width: 100%;
   padding: 30px 10px;

@@ -2,17 +2,14 @@ module.exports = (app) => {
     const path = require("path")
     const multer = require("multer")
 
-    // View Engine Setup
+    // Setup 
     app.set("views", path.join(__dirname, "views"))
     app.set("view engine", "ejs")
-
-    // var upload = multer({ dest: "Upload_folder_name" })
-    // If you do not want to use diskStorage then uncomment it
 
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
 
-            // Uploads is the Upload_folder_name
+            // definir a diretoria de upload
             cb(null, "public/img")
         },
         filename: function (req, file, cb) {
@@ -20,8 +17,7 @@ module.exports = (app) => {
         }
     })
 
-    // Define the maximum size for uploading
-    // picture i.e. 1 MB. it is optional
+    // definição do tamanho máximo da imagem
     const maxSize = 1 * 1000 * 1000 * 1000 * 1000;
 
     var upload = multer({
@@ -29,7 +25,7 @@ module.exports = (app) => {
         limits: { fileSize: maxSize },
         fileFilter: function (req, file, cb) {
 
-            // Set the filetypes, it is optional
+            // Defenir que tipos de imagem são aceite
             var filetypes = /jpeg|jpg|png/;
             var mimetype = filetypes.test(file.mimetype);
 
@@ -44,27 +40,25 @@ module.exports = (app) => {
                 + "following filetypes - " + filetypes);
         }
 
-        // mypic is the name of file attribute
+        // file é o nome do atributo do ficheiro (input type=file)
     }).single("file");
 
     app.post("/img", function (req, res, next) {
 
-        // Error MiddleWare for multer file upload, so if any
-        // error occurs, the image would not be uploaded!
+        // tratamento de erros para o multer file upload, se existir
+        // algum erro, a não se faz o upload da imagem!
         console.log("ss")
         upload(req, res, function (err) {
 
             if (err) {
 
-                // ERROR occured (here it can be occured due
-                // to uploading image of size greater than
-                // 1MB or uploading different file type)
+                // Tratamento dos erros
                 console.log(err)
                 res.send(err)
             }
             else {
 
-                // SUCCESS, image successfully uploaded
+                // Resposta de sucesso de imagem gravada
                 res.send("Success, Image uploaded!")
             }
         })

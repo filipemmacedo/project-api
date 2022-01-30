@@ -1,6 +1,7 @@
 const urlBase = "http://localhost:8000/api";
 const listaNewspapper = document.getElementById("ListaNewspappers");
 
+//  função de espera 
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -9,6 +10,7 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
+// Cria os cards com respetivas noticias de tecnologia
 function getNews(v_name) {
     let url = urlBase + "/news";
     if (v_name != "") {
@@ -48,7 +50,7 @@ function getNews(v_name) {
             for (const newspapper of newspappers.sort(() => Math.random() - 0.2)) {
                 auxNews = newspapper.title.replaceAll(/\s/g, '');
                 if (auxNews != ''
-                    && auxNews != 'Tecnologia'
+                    && auxNews != 'Tecnologia'  //  Algumas validações e limpeza de noticias
                     && !auxNews.match(/coment�rios*/)
                     && !newspapper.url.match(/hamburger*./)) {
                     titulo = newspapper.title;
@@ -76,6 +78,8 @@ function getNews(v_name) {
 
 }
 
+//  cria a modal com a lista dos jornais que servem para 
+//   criar a lista de noticias
 async function getAllNewspapers() {
     let url = urlBase + "/newspapers";
     const myInit = {
@@ -136,13 +140,14 @@ async function getAllNewspapers() {
 
 }
 
+//  Abre uma popUp com a noticia listada
 function getNewspapper(url) {
-    alert(url);
     window.open(url, 'popUpWindow', 'height=400,width=600,left=10,top=10,,scrollbars=yes,menubar=no');
     return false;
     location.href = url;
 }
 
+// Cria modal para guardar alterações ao jornal
 function editNewspaper(v_nome, v_address, v_base, v_img) {
 
     swal.fire(
@@ -247,6 +252,7 @@ function editNewspaper(v_nome, v_address, v_base, v_img) {
         });
 }
 
+// Cria um novo jornal 
 function createNewspaper() {
 
     swal.fire(
@@ -316,7 +322,8 @@ function createNewspaper() {
                             method: "POST",
                             body: formData
                         });
-
+                        //  atualiza as lista de noticias e o filtro de jornais
+                        // com o novo jornal criado
                         getAllNewspapers();
                         getSelectBox();
                         Swal.fire({
@@ -344,6 +351,7 @@ function createNewspaper() {
         });
 }
 
+// Guarda a token 
 const getKey = localStorage.getItem('token');
 
 if(getKey){

@@ -1,3 +1,4 @@
+//Definição de rotas 
 module.exports = (app) => {
   const controller = require("../controller/controller");
   const data = require("../models/nedb");

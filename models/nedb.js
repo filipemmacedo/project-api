@@ -46,6 +46,7 @@ exports.cRud_login = (email) => {
   });
 };
 
+//  Regsto de um novo utilizador
 exports.Crud_registar = (username, email, password, confirmationToken) => {
   return new Promise((resolve, reject) => {
     data = {
@@ -66,6 +67,7 @@ exports.Crud_registar = (username, email, password, confirmationToken) => {
   });
 };
 
+// devolve listagem de utilizadores
 exports.Crud_listUsers = (req, res) => {
   return new Promise((resolve, reject) => {
     // lê todos os registos
@@ -79,6 +81,7 @@ exports.Crud_listUsers = (req, res) => {
   });
 };
 
+// Guarda alterações do utilizador
 exports.Crud_saveUser = (username, email, isAdmin) => {
   return new Promise((resolve, reject) => {
     db.users.update({ _id: email }, { $set: { username: username, admin: isAdmin } }, {},  (err,dados) => {
