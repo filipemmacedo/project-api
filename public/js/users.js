@@ -318,6 +318,8 @@ String.prototype.initCap = function () {
 };
 
 async function getSelectBox() {
+  alert('sss');
+  document.getElementById("nespaperslist").innerHTML ="";
   let url = urlBase + "/newspapers";
   const myInit = {
     method: "GET",

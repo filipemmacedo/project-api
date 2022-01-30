@@ -9,7 +9,7 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
- function getNews(v_name) {
+function getNews(v_name) {
     let url = urlBase + "/news";
     if (v_name != "") {
         url += "/" + v_name;
@@ -33,7 +33,7 @@ function sleep(milliseconds) {
     };
     const myRequest = new Request(url, myInit);
 
-     fetch(myRequest).then(async function (response) {
+    fetch(myRequest).then(async function (response) {
         sleep(1000);
         if (!response.ok) {
             listaNewspapper.innerHTML = "Não posso mostrar as noticias de momento!";
@@ -291,8 +291,6 @@ function createNewspaper() {
             },
         }).then((result) => {
             if (!result.isConfirmed) {
-                getAllNewspapers();
-                getSelectBox();
             } else {
                 const name = document.getElementById("name").value;
                 const address = document.getElementById("address").value;
@@ -318,7 +316,9 @@ function createNewspaper() {
                             method: "POST",
                             body: formData
                         });
-                        alert('The file has been uploaded successfully.');
+
+                        getAllNewspapers();
+                        getSelectBox();
                         Swal.fire({
                             icon: "success",
                             title: name,
