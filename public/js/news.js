@@ -344,3 +344,10 @@ function createNewspaper() {
         });
 }
 
+const getKey = localStorage.getItem('token');
+
+if(getKey){
+    console.log('Name is found');
+} else {
+    document.getElementById('container-register').innerHTML = "<p>This project is related to the master's degree in Computer Engineering and Telecommunications administered at the Universidade Autónoma de Lisboa.</p> <p>The objective is to develop an interface that allows the use of an API also developed by the working group. The API, in turn, through web scraping, searches for information related to a certain topic, in this case technology, and returns this information through a JSON object that, with proper authentication on the platform, can be used for the purposes that the user understands. Web scraping is the process of collecting structured data from the web in an automated way. It is also known as web data extraction or data scraping.</p><p>To continue using the API please register.</p>"
+}
